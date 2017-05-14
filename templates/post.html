@@ -1,0 +1,140 @@
+{% extends 'layouts/main.html' %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                {# Start of the post #}
+                <div class="card mb-20">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ post.title }}</h4>
+
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <div class="p-2">
+                                <i>by:</i> <a href="/author/@{{ post.user.username }}">@{{ post.user.username }}</a> posted
+                                <span class="post-time" data-datetime="{{ post.created }}"></span>
+                            </div>
+
+                            {% if user %}
+                                {% if not user.key().id() == post.user.key().id() %}
+                                    <div class="p-2">
+                                        <a class="like-btn" data-post="{{ post.key().id() }}" href="#">
+                                            <i class="fa fa-thumbs-o-up font-20"></i>
+                                        </a>
+
+                                        {% for p in post.likes %}
+                                            {% if p.user.key().id() == user.key().id() %}
+                                                <small>Liked</small>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="p-2">
+                                            <a class="btn btn-sm btn-primary" href="/post/edit/{{ post.key().id() }}/{{ post.slug }}">edit</a>
+                                        </div>
+
+                                        <div class="p-2">
+                                            <a class="btn btn-sm btn-danger delete-link text-white" 
+                                                data-id="{{ post.key().id() }}" 
+                                                data-type="post" 
+                                                data-toggle="modal" 
+                                                data-target="#deleteModal">delete</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+
+                        <hr>
+
+                        <p class="card-text p-2">
+                            {{ post.body }}
+                        </p>
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        {{ post.body | wordcount  }} words
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-block text-muted">
+                        <h5>
+                            Comments 
+                            <span class="badge badge-default badge-pill">{{ post.comments.count() if post.comments else "0" }}</span>
+                        </h5>
+                    </div>
+
+                    {% if not post.comments %}
+                        <div class="card-block">
+                            <p class="card-text">Currently no comments.</p>
+                        </div>
+                    {% else %}
+                        <div class="container">
+                        {% for current_comment in post.comments.order("created") %}
+                            <div class="card comment">
+                                <div class="card-block">
+                                    <h6 class="card-title">
+                                        <strong>@{{ current_comment.user.username }}</strong> posted
+                                        <span class="post-time" data-datetime="{{ current_comment.created }}"></span>
+                                    </h6>
+
+                                    <hr>
+
+                                    <div class="comment-body">{{ current_comment.comment }}</div>
+                                </div>
+
+                                {% if user.username == current_comment.user.username %}
+                                    <div class="card-footer text-right">
+                                        <a class="card-link pointer"
+                                            data-id="{{ current_comment.key().id() }}"
+                                            data-toggle="modal"
+                                            data-target="#editCommentModal">Edit</a>
+
+                                        <a class="card-link pointer"
+                                            data-id="{{ current_comment.key().id() }}"
+                                            data-type="comment"
+                                            data-toggle="modal"
+                                            data-target="#deleteModal">Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {# Start of the comment block #}
+                    <div class="card-block">
+                        {% if user %}
+                            <form method="POST" action="/comment">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Type here to leave comment. (Minimum 10 characters)"></textarea>
+                                    <input type="hidden" name="post_ref" value="{{ post.key().id() }}">
+                                </div>
+                                
+                                <p id="cmtError"></p>
+
+                                <button type="submit" class="btn btn-primary" name="submitCmtBtn" id="submitCmtBtn">Submit</button>
+                            </form>
+                        {% else %}
+                            <div class="box">
+                                <p class="card-text text-center">
+                                    <a href="/login">Login</a> or 
+                                    <a href="/register">Register</a> to leave a comment.
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "modals/edit_comment.html" %}
+    {% include "modals/delete_confirm.html" %}
+
+{% endblock %}

@@ -1,0 +1,92 @@
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+	font-family: "Roboto", sans-serif;
+	padding-bottom: 100px;
+}
+
+header {
+	padding-bottom: 30px;
+}
+
+/*
+	Seems to be a bug in bootstrap 4, have to set min width
+*/
+nav .container {
+	min-width: 380px;
+}
+
+.box {
+	border: 1px solid #e4e4e4;
+	padding: 20px;
+}
+
+.title-normal {
+	font-size: 26px;
+	border-bottom: 1px solid #ccc;
+	padding: 5px 0;
+	margin-bottom: 15px;
+}
+
+.comment {
+	margin-bottom: 20px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+
+/*
+ 	Margin and Padding Helpers
+ */
+.mb-20 {
+	margin-bottom: 20px;
+}
+
+
+/*
+	Text Helpers
+*/
+.font-20 {
+	font-size: 20px;
+}
+
+.text-white {
+	color: #fffff;
+}
+
+
+/*
+	Modal CSS
+*/
+.content-type {
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+
+/*
+	Flex Helpers
+*/
+.flex {
+	flex: 1;
+}
+
+.flex-grow-1 {
+	flex-grow: 1;
+}
+
+.flex-grow-2 {
+	flex-grow: 2;
+}
+
+.flex-grow-3 {
+	flex-grow: 3;
+}
+
+.flex-grow-4 {
+	flex-grow: 4;
+}

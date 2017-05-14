@@ -1,0 +1,27 @@
+{% extends 'layouts/main.html' %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>
+                    @{{ blog_author.username }} <small>blog posts</small>
+                </h3>
+
+                <hr>
+
+                {% for post in blog_author.posts.order("-created") %}
+                    {% include "partials/post.html" %}
+                {% else %}
+                    <div class="card">
+                        <div class="card-block text-center">
+                            <p><strong>@{{ blog_author.username }}</strong> currently has no blog entries.</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'layouts/main.html' %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <h2 class="title-normal">Edit Blog Post</h2>
+
+                    <form method="POST" action="/post/edit/{{ post.key().id() }}/{{ post.slug }}" onsubmit="submitBtn.disabled=true; return true;">
+                        <div class="form-group {% if 'title' in errors %} has-danger {% endif %}">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" name="title" value="{{ post.title }}" required>
+
+                            {% if 'title' in errors %}
+                                <div class="form-control-feedback">{{ errors.title }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group {% if 'body' in errors %} has-danger {% endif %}">
+                            <label for="body">Body</label>
+                            <textarea class="form-control" name="body" rows="10" required>{{ post.body }}</textarea>
+
+                            {% if 'body' in errors %}
+                                <div class="form-control-feedback">{{ errors.body }}</div>
+                            {% endif %}
+                        </div>
+
+                        <a class="btn btn-danger" href="/blog/{{ post.key().id() }}/{{ post.slug }}">Cancel</a>
+                        <button type="submit" class="btn btn-primary" name="submitBtn">Update Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

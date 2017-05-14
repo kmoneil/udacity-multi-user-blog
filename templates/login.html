@@ -1,0 +1,53 @@
+{% extends 'layouts/main.html' %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <h2 class="title-normal">Login</h2>
+
+                    {% if 'nouser' in errors %}
+                        <div class="alert alert-danger text-center" role="alert">
+                            Sorry we didn't find a <strong>username</strong> and <strong>password</strong> that match.
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" action="/login">
+                        <div class="form-group row {% if 'username' in errors %} has-danger {% endif %}">
+                            <label class="col-sm-3 col-form-label text-right" for="title">Username</label>
+
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="username" name="username" value="{{ username }}" required>
+                                {% if 'username' in errors %}
+                                    <div class="form-control-feedback">{{ errors.username }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group row {% if 'password' in errors %} has-danger {% endif %}">
+                            <label class="col-sm-3 col-form-label text-right" for="title">Password</label>
+
+                            <div class="col-sm-7">
+                                <input type="password" class="form-control" id="password" name="password" value="{{ password }}" required>
+                                {% if 'password' in errors %}
+                                    <div class="form-control-feedback">{{ errors.password }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3"></div>
+
+                            <div class="col-sm-7">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

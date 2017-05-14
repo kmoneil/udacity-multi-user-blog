@@ -1,0 +1,31 @@
+{% extends 'layouts/main.html' %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% for post in posts %}
+                    {% include "partials/post.html" %}
+                {% else %}
+                    <div class="card">
+                        <div class="card-block text-center">
+                            <div class="box">
+                                <p>Currently no blog entries.</p>
+                            </div>
+
+                            {% if not user %}
+                                <p class="mt-3">
+                                    If you'd like to create a post, please <a href="/login">Login</a> or <a href="/register">Register</a>.
+                                </p>
+                            {% else %}
+                                <a class="btn btn-primary mt-3" href="/post/create">Write Post</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

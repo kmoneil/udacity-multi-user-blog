@@ -1,0 +1,18 @@
+{% extends 'layouts/main.html' %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="jumbotron alert-danger">
+                    <div class="container text-center">
+                        <h1 class="display-4">404 - Page not found!</h1>
+                        <p class="lead">We could not find the page you've requested.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

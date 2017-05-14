@@ -1,0 +1,36 @@
+<div class="card mb-20">
+    <div class="card-block">
+        <h4 class="card-title">
+            <a href="/blog/{{ post.key().id() }}/{{ post.slug }}">{{ post.title }}</a>
+        </h4>
+
+        <p class="card-text">{{ post.body | truncate(200) }}</p>
+    </div>
+
+    <div class="card-footer text-muted">
+        <div class="d-flex flex-row justify-content-around">
+            <div class="p-2 flex-grow-2">
+                <i>by:</i> <a href="/author/@{{ post.user.username }}"><strong>@{{ post.user.username }}</strong></a> posted
+                <span class="post-time" data-datetime="{{ post.created }}"></span>
+            </div>
+
+            <div class="p-2">
+                Comments: {{ post.comments.count() if post.comments else "0" }}
+            </div>
+
+            {% if user and not user.key().id() == post.user.key().id() %}
+                <div class="p-2">
+                    <a class="like-btn" data-post="{{ post.key().id() }}" href="#">
+                        <i class="fa fa-thumbs-o-up font-20"></i>
+                    </a>
+
+                    {% for p in post.likes %}
+                        {% if p.user.key().id() == user.key().id() %}
+                            <small>Liked</small>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+           {% endif %}
+        </div>
+    </div>
+</div>
